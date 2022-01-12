@@ -1,0 +1,8 @@
+Model Information:
+* title:	Formula 1 2022 - Generic FIA Concept
+* source:	https://sketchfab.com/3d-models/formula-1-2022-generic-fia-concept-a171bcf82863451a98087600b2ff8cbf
+* author:	gerulf.doesinger (https://sketchfab.com/gerulf.doesinger)
+
+Model License:
+* license type:	SKETCHFAB Editorial (https://sketchfab.com/licenses)
+* requirements:	Use only in connection with events that are newsworthy or of public interest

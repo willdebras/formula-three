@@ -1,0 +1,133 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+
+:root {
+    --formula-red: #FF1801;
+    --dark-grey: #1e1a20;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: formula;
+    src: url("fonts/Formula1-Regular.otf");
+}
+
+
+
+html {
+    background:#1e1a20;
+}
+
+
+.webgl
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+.fade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    outline: none;
+    transition: background-color 1s ease, backdrop-filter 1s ease;
+}
+
+.blurred {
+    background-color: hsla(0, 0%, 31%, 0.7);
+    backdrop-filter: blur(24px);
+}
+
+
+.section
+{
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    color: #ffeded;
+    padding-left: 10%;
+    padding-right: 10%;
+    color: var(--formula-red)
+}
+
+.section:nth-child(even)
+{
+    justify-content: flex-end;
+}
+
+.section div h1 {
+    text-transform: uppercase;
+    font-family:formula, sans-serif;
+    margin-bottom:0.3em;
+    font-size: 3.5em;
+    color: var(--formula-red)
+}
+
+.section h1 {
+    font-size:2em;
+    font-family: 'Titillium Web', sans-serif;
+    color: var(--dark-grey);
+}
+
+.section div {
+    max-width:550px;
+    border:1px solid white;
+    padding:16px 24px;
+    background-color: hsla(0, 15%, 96%, 0.75);
+    backdrop-filter: blur(6px);
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+}
+
+.section div p {
+    font-size: 1.5em;
+    font-family: 'Titillium Web', sans-serif;
+    color:black;
+    padding:16px;
+}
+
+.sourecode {
+    color: var(--dark-grey);
+    font-weight:400;
+    text-shadow: 2px 2px 14px #c96624;
+  }
+
+.sourcea {
+    text-decoration-color: var(--dark-grey);
+    text-decoration-thickness: 0.08em;
+  }
+
+  .sourcecode {
+      color:white;
+      font-size:1.5em;
+      margin-bottom:12px;
+      margin-left:16px;
+  }
+
+  .contact-section {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    padding-left: 15%;
+    padding-right: 10%;
+    font-family: 'Titillium Web', sans-serif;
+    font-size:2em;
+  }
+
+  .closing {
+      color:white;
+      font-size:1.8em;
+      font-weight:400;
+  }
+
+
