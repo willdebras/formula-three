@@ -6,6 +6,7 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 // import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import gsap from 'gsap'
 import { ScrollTrigger } from "gsap/ScrollTrigger.js";
@@ -71,34 +72,20 @@ shadow.rotation.x =- Math.PI / 2
 scene.add(shadow)
 
 /**
+ * Base
+ */
+// Debug
+const debugObject = {}
+
+
+/**
+ * LOADERS
+ */
+
+/**
  * CAR
  */
 
-//  const fbxLoader = new FBXLoader()
-//  fbxLoader.load(
-//      '/textures/f1/F122_conceptCar_deliveryOct21_20211015.fbx',
-//      (object) => {
-//          object.traverse(function (child) {
-//             if ( child.isMesh ) {
-//                 child.castShadow = true;
-//                 child.receiveShadow = true;
-        
-//             }
-//          })
-//          object.scale.set(.05, .05, .05)
-
-//          object.castShadow = true
-//          object.receiveShadow = false
-
-//          scene.add(object)
-//      },
-//      (xhr) => {
-//          console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-//      },
-//      (error) => {
-//          console.log(error)
-//      }
-//  )
 
 const gltfLoader = new GLTFLoader()
 
@@ -106,12 +93,54 @@ gltfLoader.load(
     '/textures/f1_gltf/scene.gltf',
     (gltf) =>
     {
+        //scene.add(gltf.scene)
         for(const child of gltf.scene.children)
         {
             scene.add(child)
         }
+        //updateAllMaterials()
     }
 )
+
+// env mapping
+
+const cubeTextureLoader = new THREE.CubeTextureLoader()
+//const rgbeLoader = new RGBELoader()
+
+/**
+ * Environment map
+ */
+ const environmentMap = cubeTextureLoader.load([
+    '/textures/environmentMaps/venice/px.png',
+    '/textures/environmentMaps/venice/nx.png',
+    '/textures/environmentMaps/venice/py.png',
+    '/textures/environmentMaps/venice/ny.png',
+    '/textures/environmentMaps/venice/pz.png',
+    '/textures/environmentMaps/venice/nz.png'
+])
+
+environmentMap.encoding = THREE.sRGBEncoding
+
+//scene.background = environmentMap
+scene.environment = environmentMap
+
+/**
+ * Update all materials
+ */
+ const updateAllMaterials = () =>
+ {
+     scene.traverse((child) =>
+     {
+         if(child instanceof THREE.Mesh)
+         {
+             // child.material.envMap = environmentMap
+             child.material.envMapIntensity = debugObject.envMapIntensity
+             child.material.needsUpdate = true
+             child.castShadow = true
+             child.receiveShadow = true
+         }
+     })
+ }
 
 /**
  * Sizes
@@ -141,13 +170,14 @@ window.addEventListener('resize', () =>
  * lights
  */
 
- const ambientLight = new THREE.AmbientLight('#FAF9F6', 1.1)
+ const ambientLight = new THREE.AmbientLight('#FAF9F6', 0.9)
  scene.add(ambientLight)
  gui.add(ambientLight, 'intensity', 0, 5, 0.001).name('ambientIntensity')
 
 const direcLight = new THREE.DirectionalLight('#FAF9F6', 1)
 direcLight.position.set(2.8, 2.5, 2.5)
-direcLight.intensity = 1.2
+direcLight.position.set(2.8, 2.5, -5)
+direcLight.intensity = 1.1
 direcLight.castShadow = true
 scene.add(direcLight)
 
@@ -176,9 +206,14 @@ const helper = new THREE.CameraHelper( direcLight.shadow.camera )
 
 const pointLight = new THREE.PointLight('#FAF9F6', 0.5)
 pointLight.position.x = 1
-pointLight.position.y = 4
+pointLight.position.y = 2.8
 pointLight.position.z = 1
 scene.add(pointLight)
+
+gui.add(pointLight.position, 'x', -5, 20, 0.0001).name('pointx')
+gui.add(pointLight.position, 'y', -5, 20, 0.0001).name('pointy')
+gui.add(pointLight.position, 'z', -5, 20, 0.0001).name('pointz')
+gui.add(pointLight, 'intensity', 0, 5, 0.001).name('pointIntensity')
 
 
 
@@ -214,6 +249,10 @@ const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     alpha:true
 })
+
+renderer.toneMapping = THREE.ACESFilmicToneMapping; 
+renderer.toneMappingExposure = 1.25;
+
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 // renderer.shadowMap.enabled = true;
@@ -268,9 +307,12 @@ gsap.to(camera.position, {
     scrollTrigger: {
         trigger: "#section2",
         start: 'top 50%',
+        // start: 'top 80%',
+        // end: 'top 10%',
         //end: 'bottom 30%',
         toggleActions: 'play none none reverse',
         id: 'first-position',
+        scrub:false,
         markers:false,
     },
         x: 2.2, y: 0.5, z: 1.2,
@@ -284,10 +326,12 @@ gsap.to(camera.position, {
     scrollTrigger: {
         trigger: "#section2",
         start: 'top 50%',
-        //end: 'bottom 30%',
+        // start: 'top 80%',
+        // end: 'top 10%',
         toggleActions: 'play none none reverse',
         id: 'first-rotation',
         markers:false,
+        scrub:false,
     },
         x:0, y: 1.8, z: 0,
         duration:1.7,
@@ -300,9 +344,12 @@ gsap.to(camera.position, {
     scrollTrigger: {
         trigger: "#section3",
         start: 'top 50%',
+        // start: 'top 80%',
+        // end: 'top 10%',
         toggleActions: 'play none none reverse',
         id: 'second-position',
         markers:false,
+        scrub:false
     },
     x: 0.9, y: 1.3, z: -1,
     ease: 'power2.inOut',
@@ -315,9 +362,12 @@ gsap.fromTo(camera.rotation,
     scrollTrigger: {
         trigger: "#section3",
         start: 'top 50%',
+        // start: 'top 80%',
+        // end: 'top 10%',
         toggleActions: 'play none none reverse',
         id: 'second-rotation',
         markers:false,
+        scrub: false
     },
     x: -0.2, y: 0.83, z: 0.1,
     ease: 'power2.inOut',
