@@ -80,12 +80,12 @@ html {
 
 .section div {
     max-width:550px;
-    border:1px solid white;
+    border:3px solid white;
+    border-radius:2px;
     padding:16px 24px;
-    background-color: hsla(0, 15%, 96%, 0.75);
+    background-color: hsla(0, 15%, 96%, 0.8);
     backdrop-filter: blur(6px);
-    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
-    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 .section div p {
