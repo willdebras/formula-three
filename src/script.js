@@ -201,8 +201,8 @@ direcLight.position.set(2.8, 2.5, -5)
 direcLight.intensity = 0.4
 direcLight.castShadow = true
 // will reduce the normal bias on shadowing, prevents the shadow acne
-directionalLight.shadow.mapSize.set(1024, 1024)
-directionalLight.shadow.normalBias = 0.05
+direcLight.shadow.mapSize.set(1024, 1024)
+direcLight.shadow.normalBias = 0.05
 scene.add(direcLight)
 
 direcLight.shadow.mapSize.width = 512
