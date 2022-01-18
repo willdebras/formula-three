@@ -200,6 +200,9 @@ direcLight.position.set(2.8, 2.5, 2.5)
 direcLight.position.set(2.8, 2.5, -5)
 direcLight.intensity = 0.4
 direcLight.castShadow = true
+// will reduce the normal bias on shadowing, prevents the shadow acne
+directionalLight.shadow.mapSize.set(1024, 1024)
+directionalLight.shadow.normalBias = 0.05
 scene.add(direcLight)
 
 direcLight.shadow.mapSize.width = 512
@@ -297,8 +300,8 @@ gui.add(renderer, 'toneMappingExposure').min(0).max(5).step(0.01)
 
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
- renderer.shadowMap.enabled = true;
- renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+//renderer.shadowMap.enabled = true;
+//renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 /**
  * Animate
  */
