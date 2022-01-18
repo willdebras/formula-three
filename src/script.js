@@ -48,9 +48,9 @@ marbleColor.encoding = THREE.sRGBEncoding
 
 
 //var groundMaterial = new THREE.MeshStandardMaterial( { map: marbleColor } )
-var groundMaterial = new THREE.MeshStandardMaterial( { color: 0x404040 } )
+const groundMaterial = new THREE.MeshStandardMaterial( { color: 0x404040 } )
 
-var mesh = new THREE.Mesh( new THREE.CircleBufferGeometry( 100, 50 ), groundMaterial )
+const mesh = new THREE.Mesh( new THREE.CircleBufferGeometry( 30, 30 ), groundMaterial )
 mesh.position.y = 0
 mesh.rotation.x =- Math.PI / 2
 mesh.receiveShadow = true
@@ -93,12 +93,12 @@ gltfLoader.load(
     '/textures/f1_gltf/scene.gltf',
     (gltf) =>
     {
-        //scene.add(gltf.scene)
-        for(const child of gltf.scene.children)
-        {
-            scene.add(child)
-        }
-        //updateAllMaterials()
+        scene.add(gltf.scene)
+        // for(const child of gltf.scene.children)
+        // {
+        //     scene.add(child)
+        // }
+        updateAllMaterials()
     }
 )
 
@@ -110,19 +110,36 @@ const cubeTextureLoader = new THREE.CubeTextureLoader()
 /**
  * Environment map
  */
- const environmentMap = cubeTextureLoader.load([
-    '/textures/environmentMaps/venice/px.png',
-    '/textures/environmentMaps/venice/nx.png',
-    '/textures/environmentMaps/venice/py.png',
-    '/textures/environmentMaps/venice/ny.png',
-    '/textures/environmentMaps/venice/pz.png',
-    '/textures/environmentMaps/venice/nz.png'
+//  const environmentMap = cubeTextureLoader.load([
+//     '/textures/environmentMaps/venice/px.png',
+//     '/textures/environmentMaps/venice/nx.png',
+//     '/textures/environmentMaps/venice/py.png',
+//     '/textures/environmentMaps/venice/ny.png',
+//     '/textures/environmentMaps/venice/pz.png',
+//     '/textures/environmentMaps/venice/nz.png'
+// ])
+
+const environmentMap = cubeTextureLoader.load([
+    '/textures/environmentMaps/0/px.jpg',
+    '/textures/environmentMaps/0/nx.jpg',
+    '/textures/environmentMaps/0/py.jpg',
+    '/textures/environmentMaps/0/ny.jpg',
+    '/textures/environmentMaps/0/pz.jpg',
+    '/textures/environmentMaps/0/nz.jpg'
 ])
 
 environmentMap.encoding = THREE.sRGBEncoding
 
 //scene.background = environmentMap
 scene.environment = environmentMap
+
+debugObject.envMapIntensity = 2
+//for venice
+//debugObject.envMapIntensity = 1.2
+
+gui.add(debugObject, 'envMapIntensity').min(0).max(10).step(0.001).onChange(()=> {
+    updateAllMaterials()
+})
 
 /**
  * Update all materials
@@ -131,7 +148,7 @@ scene.environment = environmentMap
  {
      scene.traverse((child) =>
      {
-         if(child instanceof THREE.Mesh)
+         if(child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial)
          {
              // child.material.envMap = environmentMap
              child.material.envMapIntensity = debugObject.envMapIntensity
@@ -165,6 +182,10 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
+const parameters = {
+    toneMapping: 1,
+    ambientColor: '#FAF9F6'
+}
 
 /**
  * lights
@@ -177,7 +198,7 @@ window.addEventListener('resize', () =>
 const direcLight = new THREE.DirectionalLight('#FAF9F6', 1)
 direcLight.position.set(2.8, 2.5, 2.5)
 direcLight.position.set(2.8, 2.5, -5)
-direcLight.intensity = 1.1
+direcLight.intensity = 0.4
 direcLight.castShadow = true
 scene.add(direcLight)
 
@@ -204,7 +225,7 @@ const helper = new THREE.CameraHelper( direcLight.shadow.camera )
 //scene.add( helper );
 
 
-const pointLight = new THREE.PointLight('#FAF9F6', 0.5)
+const pointLight = new THREE.PointLight('#FAF9F6', 0.6)
 pointLight.position.x = 1
 pointLight.position.y = 2.8
 pointLight.position.z = 1
@@ -247,16 +268,37 @@ controls.enableDamping = true
  */
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
-    alpha:true
+    alpha:true,
+    antialias: true
 })
 
-renderer.toneMapping = THREE.ACESFilmicToneMapping; 
-renderer.toneMappingExposure = 1.25;
+// converting hdr values to ldr values via tonemapping
+renderer.toneMapping = THREE.ACESFilmicToneMapping
+renderer.toneMappingExposure = parameters.toneMapping
+renderer.physicallyCorrectLights = true
+renderer.outputEncoding = THREE.sRGBEncoding
+
+
+gui
+    .add(renderer, 'toneMapping', {
+        No: THREE.NoToneMapping,
+        Linear: THREE.LinearToneMapping,
+        Reinhard: THREE.ReinhardToneMapping,
+        Cineon: THREE.CineonToneMapping,
+        ACESFilmic: THREE.ACESFilmicToneMapping
+    })
+    .onFinishChange(() =>
+    {
+        renderer.toneMapping = Number(renderer.toneMapping)
+        updateAllMaterials()
+    })
+
+gui.add(renderer, 'toneMappingExposure').min(0).max(5).step(0.01)
 
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-// renderer.shadowMap.enabled = true;
-// renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+ renderer.shadowMap.enabled = true;
+ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 /**
  * Animate
  */
