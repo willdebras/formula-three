@@ -26,9 +26,9 @@ const scene = new THREE.Scene()
 const axesHelper = new THREE.AxesHelper(5)
 //scene.add(axesHelper)
 
-const fogColor = new THREE.Color(0xa0a0a0 );
+const fogColor = new THREE.Color('#ffcccb');
 scene.background = fogColor
-scene.fog = new THREE.Fog(fogColor, 10, 90);
+scene.fog = new THREE.Fog(fogColor, 10, 30);
 
 // Env
 
@@ -48,7 +48,7 @@ marbleColor.encoding = THREE.sRGBEncoding
 
 
 //var groundMaterial = new THREE.MeshStandardMaterial( { map: marbleColor } )
-const groundMaterial = new THREE.MeshStandardMaterial( { color: 0x404040 } )
+const groundMaterial = new THREE.MeshStandardMaterial( { color: '#ffcccb' } )
 
 const mesh = new THREE.Mesh( new THREE.CircleBufferGeometry( 30, 30 ), groundMaterial )
 mesh.position.y = 0
@@ -263,8 +263,8 @@ gui.add(camera.rotation, 'y', -20, 20, 0.0001).name('camyrotate')
 gui.add(camera.rotation, 'z', -20, 20, 0.0001).name('camzrotate')
 
 // Controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true
+//const controls = new OrbitControls(camera, canvas)
+//controls.enableDamping = true
 
 /**
  * Renderer
@@ -307,17 +307,17 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
-controls.addEventListener( "change", event => {  
-    console.log( controls.object.position ); 
-    console.log( controls.object.rotation ); 
-})
+// controls.addEventListener( "change", event => {  
+//     console.log( controls.object.position ); 
+//     console.log( controls.object.rotation ); 
+// })
 
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
-    // controls.update()
+     //controls.update()
 
     // Render
     renderer.render(scene, camera)
@@ -331,6 +331,18 @@ tick()
 /**
  * scroll triggers
  */
+
+
+ ScrollTrigger.create({
+    trigger: "#canvas-wrapper",
+    start: "top top",
+    endTrigger: "html",
+    end: "bottom top",
+    pin: true,
+    pinSpacing: false,
+    toggleActions: 'play none none reverse',
+    
+  });
 
 
 // starting camera position and rotation
