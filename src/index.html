@@ -22,11 +22,22 @@
             <h2>
                 A look inside the new 2022 Formula 1 car
             </h2>
+            <div class = 'loading-wrapper'>
+                <div class="loading-indicator">LOADING...</div>
+                <div class="loading-bar"></div>
+                <div class="complete-indicator hidden-loader">
+                    SCROLL TO CONTINUE
+                    <br>
+                    <span class = 'arrow'>↓</span>
+
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- pinning wrapper needed so our resize still works on the canvas -->
     <div id="canvas-wrapper">
+        <div id="car-title"><h2>A render of the 2022 car</h2></div>
         <canvas class="webgl"></canvas>
     </div>
 

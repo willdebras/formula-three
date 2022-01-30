@@ -21,6 +21,7 @@
 html {
     background:#1e1a20;
     overflow-x: hidden;
+    margin:0;
 }
 
 
@@ -135,10 +136,12 @@ html {
     position:relative;
     width:100vw;
     height:100vh;
+    margin:0;
 }
 
 .mainpage-image {
-    position:absolute;
+    position:fixed;
+    margin:0;
     top:0;
     left:0;
     width:100vw;
@@ -189,3 +192,102 @@ html {
     margin-top:20px;
 }
 
+#car-title {
+    position:fixed;
+    right:20%;
+    top:20%;
+    opacity:0;
+    transition: 1s opacity ease;
+}
+
+#car-title > h2 {
+    text-transform: uppercase;
+    font-size:2em;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 400;
+    color: var(--dark-grey);
+}
+
+.vis {
+    opacity:1 !important;
+}
+
+.loading-wrapper {
+    margin-top:100px;
+    width: 70%;
+}
+
+.loading-bar {
+    width:50%;
+    margin-left:25%;
+    height: 2px;
+    background: #ffffff;
+    transform: scaleX(0.3);
+    transform-origin: left;
+    transition: transform 0.5s;
+}
+
+.loading-bar.ended
+{
+    transform: scaleX(0);
+    transform-origin: 100% 0;
+    transition: transform 1.5s ease-in-out;
+}
+
+.loading-indicator {
+    text-align: center;
+    font-size:1.3em;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight:400;
+    color:white;
+}
+
+.hidden-loader {
+    display:none;
+}
+
+.complete-indicator {
+    text-align: center;
+    font-size:1.3em;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight:400;
+    color:white;
+    animation: scroll 5s ease-in-out infinite;
+}
+
+.complete {
+    display:revert;
+}
+
+
+/* scroll box */
+@keyframes scroll {
+    0%,
+    100% {
+      transform: translateY(1rem); }
+    50% {
+      transform: translateY(-1rem); } }
+
+
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1.2); }
+    50% {
+        opacity: 0.2;
+        transform: scale(0.7); } 
+}
+
+.arrow {
+    font-size:1.3em;
+    animation: blink 5s ease-in-out infinite;
+}
+
+/* handling for the initial scren */
+
+.stop-scrolling {
+    position:fixed;
+    height: 100%;
+    overflow: hidden;
+  }

@@ -17,6 +17,8 @@ gsap.registerPlugin(ScrollTrigger);
  */
 // Debug
 const gui = new dat.GUI()
+// can comment this or uncomment to remove from production
+gui.destroy()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -30,21 +32,58 @@ const fogColor = new THREE.Color('#ffcccb');
 scene.background = fogColor
 scene.fog = new THREE.Fog(fogColor, 10, 30);
 
+/**
+ * Loaders
+ */
+
+ const loadingBarElement = document.querySelector('.loading-bar')
+ const loadingTextElement = document.querySelector('.loading-indicator')
+ const scrollIndicator = document.querySelector('.complete-indicator')
+
+ // Progress bar shenanigans
+
+ // add a class to the body at start that removes scrolling (sets max height, overflow set to hidden)
+  const body = document.querySelector('body')
+  body.classList.add('stop-scrolling')
+
+const loadingManager = new THREE.LoadingManager(
+        // Loaded
+        () =>
+        {
+            // get rid of the progress bar
+            loadingBarElement.classList.add('ended')
+            loadingBarElement.style.transform = ''
+            // hide loading text
+            loadingTextElement.classList.add('hidden-loader')
+            // unhide scroll text
+            scrollIndicator.classList.remove('hidden-loader')
+            // allow scrolling again
+            body.classList.remove('stop-scrolling')
+        },
+    
+        // Progress
+        (itemUrl, itemsLoaded, itemsTotal) =>
+        {
+            const progressRatio = itemsLoaded / itemsTotal
+            loadingBarElement.style.transform = `scaleX(${progressRatio})`
+        }
+)
+
 // Env
 
 // Floor
 
-const textureLoader = new THREE.TextureLoader()
+const textureLoader = new THREE.TextureLoader(loadingManager)
 
-const marbleColor = textureLoader.load('/textures/floor/marble_0008_base_color_4k.jpg')
-const marbleNormal = textureLoader.load('/textures/floor/marble_0008_normal_4k.jpg')
-const marbleRoughness = textureLoader.load('/textures/floor/marble_0008_roughness_4k.jpg')
-const marbleAO = textureLoader.load('/textures/floor/marble_0008_ao_4k.jpg')
+// const marbleColor = textureLoader.load('/textures/floor/marble_0008_base_color_4k.jpg')
+// const marbleNormal = textureLoader.load('/textures/floor/marble_0008_normal_4k.jpg')
+// const marbleRoughness = textureLoader.load('/textures/floor/marble_0008_roughness_4k.jpg')
+// const marbleAO = textureLoader.load('/textures/floor/marble_0008_ao_4k.jpg')
 
-marbleColor.wrapS = marbleColor.wrapT = THREE.RepeatWrapping;
-marbleColor.repeat.set( 100, 100 )
-marbleColor.anisotropy = 16
-marbleColor.encoding = THREE.sRGBEncoding
+// marbleColor.wrapS = marbleColor.wrapT = THREE.RepeatWrapping;
+// marbleColor.repeat.set( 100, 100 )
+// marbleColor.anisotropy = 16
+// marbleColor.encoding = THREE.sRGBEncoding
 
 
 //var groundMaterial = new THREE.MeshStandardMaterial( { map: marbleColor } )
@@ -87,7 +126,7 @@ const debugObject = {}
  */
 
 
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader(loadingManager)
 
 gltfLoader.load(
     '/textures/f1_gltf/scene.gltf',
@@ -205,14 +244,16 @@ direcLight.shadow.mapSize.set(1024, 1024)
 direcLight.shadow.normalBias = 0.05
 scene.add(direcLight)
 
-direcLight.shadow.mapSize.width = 512
-direcLight.shadow.mapSize.height = 512
-direcLight.shadow.camera.near = 0.5    
-direcLight.shadow.camera.far = 15
-direcLight.shadow.camera.top = 10;
-direcLight.shadow.camera.bottom = - 10;
-direcLight.shadow.camera.left = - 10;
-direcLight.shadow.camera.right = 10;
+// commenting shadowing since we are using baked shadows
+
+// direcLight.shadow.mapSize.width = 512
+// direcLight.shadow.mapSize.height = 512
+// direcLight.shadow.camera.near = 0.5    
+// direcLight.shadow.camera.far = 15
+// direcLight.shadow.camera.top = 10;
+// direcLight.shadow.camera.bottom = - 10;
+// direcLight.shadow.camera.left = - 10;
+// direcLight.shadow.camera.right = 10;
 
 
 gui.add(direcLight.position, 'x', -5, 20, 0.0001).name('lightx')
@@ -263,6 +304,7 @@ gui.add(camera.rotation, 'y', -20, 20, 0.0001).name('camyrotate')
 gui.add(camera.rotation, 'z', -20, 20, 0.0001).name('camzrotate')
 
 // Controls
+// Controls disabled in final product, here for debugging
 //const controls = new OrbitControls(camera, canvas)
 //controls.enableDamping = true
 
@@ -336,14 +378,28 @@ tick()
  ScrollTrigger.create({
     trigger: "#canvas-wrapper",
     start: "top top",
-    endTrigger: "html",
+    // common option is endTrigger: html, this breaks though with the current technique to disable scroll
+    // because the trigger placement isnt updated after removing height restrictions on title page
+    endTrigger: "#contact",
     end: "bottom top",
     pin: true,
     pinSpacing: false,
+    anticipatePin: 1,
     toggleActions: 'play none none reverse',
+    markers:false
     
   });
 
+
+  ScrollTrigger.create({
+    trigger: "#canvas-wrapper",
+    start: "top top",
+    endTrigger: "#section1",
+    end: "top 40%",
+    toggleClass: {targets: "#car-title", className: "vis"},
+    toggleActions: 'play none none reverse',
+    
+  });
 
 // starting camera position and rotation
 
