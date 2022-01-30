@@ -208,6 +208,13 @@ html {
     color: var(--dark-grey);
 }
 
+#car-title > h4 {
+    font-size:1.3em;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 100;
+    color: var(--dark-grey);
+}
+
 .vis {
     opacity:1 !important;
 }
