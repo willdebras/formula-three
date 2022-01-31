@@ -49,8 +49,7 @@ html {
 }
 
 
-.section
-{
+.section {
     display: flex;
     align-items: center;
     height: 100vh;
@@ -61,16 +60,21 @@ html {
     color: var(--formula-red)
 }
 
-.section:nth-child(even)
-{
-    justify-content: flex-end;
+@media (min-width:1024px) {
+
+    .section:nth-child(even) {
+        justify-content: flex-end;
+    }
+
 }
+
+
 
 .section div h1 {
     text-transform: uppercase;
     font-family:formula, sans-serif;
-    margin-bottom:0.3em;
-    font-size: 3.5em;
+    margin-bottom:0.3rem;
+    font-size: 3.5rem;
     color: var(--formula-red)
 }
 
@@ -91,11 +95,30 @@ html {
 }
 
 .section div p {
-    font-size: 1.5em;
+    font-size: 1.5rem;
     font-family: 'Titillium Web', sans-serif;
     color:black;
     padding:16px;
 }
+
+
+/*phone optimization*/
+@media (max-width:480px) {
+    .section div h1 {
+        font-size:1.5rem;
+    }
+
+    .section div p {
+        font-size:0.8rem;
+        padding:8px;
+    }
+
+    .section div {
+        padding:8px 6px 8px 12px;
+    }
+
+}
+
 
 .sourecode {
     color: var(--dark-grey);
@@ -163,6 +186,8 @@ html {
     
 }
 
+
+
 .title-box > h1 {
     text-transform: uppercase;
     font-family:formula, sans-serif;
@@ -171,12 +196,32 @@ html {
     color: white;
 }
 
+
+/*adjustments for phone */
+@media (max-width:480px) {
+
+    .title-box > h1 {
+        text-transform: uppercase;
+        font-family:formula, sans-serif;
+        margin-bottom:0.3rem;
+        font-size: 2.0rem;
+        color: white;
+    }
+}
+
 .title-box > h1 > span {
     border-bottom:1px solid white;
 }
 
 .title-box > h1 > svg {
     transform:translateY(12px);
+}
+
+/*no svg ending on mobile*/
+@media (max-width:480px) {
+    .title-box > h1 > svg {
+        display:none;
+    }
 }
 
 .breaker {
@@ -213,6 +258,21 @@ html {
     font-family: 'Titillium Web', sans-serif;
     font-weight: 100;
     color: var(--dark-grey);
+}
+
+/*mobile optimizations*/
+@media (max-width:480px) {
+    #car-title {
+        top:20px;
+        right:0;
+        margin:24px;
+        text-align:center;
+    }
+
+    #car-title > h2 {
+        font-size:1.5rem;
+    }
+
 }
 
 .vis {
