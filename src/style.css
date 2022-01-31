@@ -105,12 +105,12 @@ html {
 
 .sourcea {
     text-decoration-color: var(--dark-grey);
-    text-decoration-thickness: 0.08em;
+    text-decoration-thickness: 0.08rem;
   }
 
   .sourcecode {
       color:white;
-      font-size:1.5em;
+      font-size:1.5rem;
       margin-bottom:12px;
       margin-left:16px;
   }
@@ -123,12 +123,12 @@ html {
     padding-left: 15%;
     padding-right: 10%;
     font-family: 'Titillium Web', sans-serif;
-    font-size:2em;
+    font-size:2rem;
   }
 
   .closing {
       color:white;
-      font-size:1.8em;
+      font-size:1.8rem;
       font-weight:400;
   }
 
@@ -166,8 +166,8 @@ html {
 .title-box > h1 {
     text-transform: uppercase;
     font-family:formula, sans-serif;
-    margin-bottom:0.3em;
-    font-size: 3.5em;
+    margin-bottom:0.3rem;
+    font-size: 3.5rem;
     color: white;
 }
 
@@ -186,7 +186,7 @@ html {
 
 .title-box > h2 {
     font-family: 'Titillium Web', sans-serif;
-    font-size:2em;
+    font-size:2rem;
     color:white;
     font-weight:100;
     margin-top:20px;
@@ -202,14 +202,14 @@ html {
 
 #car-title > h2 {
     text-transform: uppercase;
-    font-size:2em;
+    font-size:2rem;
     font-family: 'Titillium Web', sans-serif;
     font-weight: 400;
     color: var(--dark-grey);
 }
 
 #car-title > h4 {
-    font-size:1.3em;
+    font-size:1.3rem;
     font-family: 'Titillium Web', sans-serif;
     font-weight: 100;
     color: var(--dark-grey);
@@ -226,7 +226,8 @@ html {
 
 .loading-bar {
     width:50%;
-    margin-left:25%;
+    max-width:500px;
+    margin:auto;
     height: 2px;
     background: #ffffff;
     transform: scaleX(0.3);
@@ -243,7 +244,7 @@ html {
 
 .loading-indicator {
     text-align: center;
-    font-size:1.3em;
+    font-size:1.3rem;
     font-family: 'Titillium Web', sans-serif;
     font-weight:400;
     color:white;
@@ -255,7 +256,7 @@ html {
 
 .complete-indicator {
     text-align: center;
-    font-size:1.3em;
+    font-size:1.3rem;
     font-family: 'Titillium Web', sans-serif;
     font-weight:400;
     color:white;
@@ -287,7 +288,7 @@ html {
 }
 
 .arrow {
-    font-size:1.3em;
+    font-size:1.3rem;
     animation: blink 5s ease-in-out infinite;
 }
 
