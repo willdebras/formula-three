@@ -138,6 +138,15 @@ html {
       margin-left:16px;
   }
 
+  .modelcode {
+    color: var(--dark-grey);
+    font-weight:400;
+    text-shadow: 2px 2px 14px #c96624;
+    font-size:1.25rem;
+    margin-bottom:12px;
+    margin-top:12px;
+}
+
   .contact-section {
     display: flex;
     align-items: center;
